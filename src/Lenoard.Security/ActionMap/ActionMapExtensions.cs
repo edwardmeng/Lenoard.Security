@@ -3,6 +3,9 @@ using System.Collections.Specialized;
 
 namespace Lenoard.Security
 {
+    /// <summary>
+    /// Provides a set of <see langword="static"/> extension methods for the <see cref="IActionMapProvider"/>
+    /// </summary>
     public static class ActionMapExtensions
     {
         private static ActionMapNode CreateNode(string nodeKey, string title, string description, NameValueCollection attributes)
@@ -24,6 +27,17 @@ namespace Lenoard.Security
 
         #region FindNode
 
+        /// <summary>
+        /// Retrieves a <see cref="ActionMapNode"/> object based on a specified key.
+        /// </summary>
+        /// <param name="provider">The <see cref="IActionMapProvider"/> to lookup with.</param>
+        /// <param name="key">A lookup key with which a <see cref="ActionMapNode"/> is created.</param>
+        /// <returns>
+        /// A <see cref="ActionMapNode"/> that represents the page identified by key; 
+        /// otherwise, null, if no corresponding <see cref="ActionMapNode"/> is found.
+        /// The default is null.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="provider"/> or <paramref name="key"/> is null.</exception>
         public static ActionMapNode FindNode(this IActionMapProvider provider, string key)
         {
             if (provider == null)
@@ -55,32 +69,76 @@ namespace Lenoard.Security
 
         #region AddNode
 
-        public static bool AddNode(this IActionMapProvider provider, string parentNode, string nodeKey, string title, string description, NameValueCollection attributes)
+        /// <summary>
+        /// Adds an <see cref="ActionMapNode"/> object to the hierarchy using the specified parent node key,
+        /// title, description and additional attributes
+        /// </summary>
+        /// <param name="provider">The <see cref="ISiteMapProvider"/> to add node with.</param>
+        /// <param name="parentNode">The parent node key</param>
+        /// <param name="nodeKey">A provider-specific lookup key.</param>
+        /// <param name="title">A label for the node, often displayed by navigation controls.</param>
+        /// <param name="description">A description of the page that the node represents.</param>
+        /// <param name="attributes">A <see cref="NameValueCollection"/> of additional attributes used to initialize the <see cref="SiteMapNode"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
+        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static ActionMapNode AddNode(this IActionMapProvider provider, string parentNode, string nodeKey, string title, string description, NameValueCollection attributes)
         {
-            if (provider.FindNode(nodeKey) == null)
+            var node = provider.FindNode(nodeKey);
+            if (node == null)
             {
                 var parentSiteMapNode = provider.FindNode(parentNode);
                 if (parentSiteMapNode == null)
                 {
                     throw new ArgumentException($"The site map node '{parentNode}' cannot be found.");
                 }
-                parentSiteMapNode.ChildNodes.Add(CreateNode(nodeKey, title, description, attributes));
-                return true;
+                node = CreateNode(nodeKey, title, description, attributes);
+                parentSiteMapNode.ChildNodes.Add(node);
             }
-            return false;
+            return node;
         }
 
-        public static bool AddNode(this IActionMapProvider provider, string parentNode, string nodeKey, string title, NameValueCollection attributes)
+        /// <summary>
+        /// Adds an <see cref="ActionMapNode"/> object to the hierarchy using the specified parent node key,
+        /// title and additional attributes
+        /// </summary>
+        /// <param name="provider">The <see cref="ISiteMapProvider"/> to add node with.</param>
+        /// <param name="parentNode">The parent node key</param>
+        /// <param name="nodeKey">A provider-specific lookup key.</param>
+        /// <param name="title">A label for the node, often displayed by navigation controls.</param>
+        /// <param name="attributes">A <see cref="NameValueCollection"/> of additional attributes used to initialize the <see cref="SiteMapNode"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
+        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static ActionMapNode AddNode(this IActionMapProvider provider, string parentNode, string nodeKey, string title, NameValueCollection attributes)
         {
             return provider.AddNode(parentNode, nodeKey, title, null, attributes);
         }
 
-        public static bool AddNode(this IActionMapProvider provider, string parentNode, string nodeKey, string title, string description)
+        /// <summary>
+        /// Adds an <see cref="ActionMapNode"/> object to the hierarchy using the specified parent node key,
+        /// title and description
+        /// </summary>
+        /// <param name="provider">The <see cref="ISiteMapProvider"/> to add node with.</param>
+        /// <param name="parentNode">The parent node key</param>
+        /// <param name="nodeKey">A provider-specific lookup key.</param>
+        /// <param name="title">A label for the node, often displayed by navigation controls.</param>
+        /// <param name="description">A description of the page that the node represents.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
+        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static ActionMapNode AddNode(this IActionMapProvider provider, string parentNode, string nodeKey, string title, string description)
         {
             return provider.AddNode(parentNode, nodeKey, title, description, null);
         }
 
-        public static bool AddNode(this IActionMapProvider provider, string parentNode, string nodeKey, string title)
+        /// <summary>
+        /// Adds an <see cref="ActionMapNode"/> object to the hierarchy using the specified parent node key and title.
+        /// </summary>
+        /// <param name="provider">The <see cref="ISiteMapProvider"/> to add node with.</param>
+        /// <param name="parentNode">The parent node key</param>
+        /// <param name="nodeKey">A provider-specific lookup key.</param>
+        /// <param name="title">A label for the node, often displayed by navigation controls.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
+        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static ActionMapNode AddNode(this IActionMapProvider provider, string parentNode, string nodeKey, string title)
         {
             return provider.AddNode(parentNode, nodeKey, title, (NameValueCollection)null);
         }
@@ -89,27 +147,67 @@ namespace Lenoard.Security
 
         #region AddRootNode
 
-        public static bool AddRootNode(this IActionMapProvider provider, string nodeKey, string title, string description, NameValueCollection attributes)
+        /// <summary>
+        /// Adds an <see cref="ActionMapNode"/> object to the <see cref="IActionMapProvider.RootNodes"/> using the specified parent node key,
+        /// title, description and additional attributes
+        /// </summary>
+        /// <param name="provider">The <see cref="IActionMapProvider"/> to add node with.</param>
+        /// <param name="nodeKey">A provider-specific lookup key.</param>
+        /// <param name="title">A label for the node, often displayed by navigation controls.</param>
+        /// <param name="description">A description of the page that the node represents.</param>
+        /// <param name="attributes">A <see cref="NameValueCollection"/> of additional attributes used to initialize the <see cref="SiteMapNode"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
+        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static ActionMapNode AddRootNode(this IActionMapProvider provider, string nodeKey, string title, string description, NameValueCollection attributes)
         {
-            if (provider.FindNode(nodeKey) == null)
+            var node = provider.FindNode(nodeKey);
+            if (node == null)
             {
-                provider.RootNodes.Add(CreateNode(nodeKey, title, description, attributes));
-                return true;
+                node = CreateNode(nodeKey, title, description, attributes);
+                provider.RootNodes.Add(node);
             }
-            return false;
+            return node;
         }
 
-        public static bool AddRootNode(this IActionMapProvider provider, string nodeKey, string title, NameValueCollection attributes)
+        /// <summary>
+        /// Adds an <see cref="ActionMapNode"/> object to the <see cref="IActionMapProvider.RootNodes"/> using the specified parent node key,
+        /// title and additional attributes
+        /// </summary>
+        /// <param name="provider">The <see cref="IActionMapProvider"/> to add node with.</param>
+        /// <param name="nodeKey">A provider-specific lookup key.</param>
+        /// <param name="title">A label for the node, often displayed by navigation controls.</param>
+        /// <param name="attributes">A <see cref="NameValueCollection"/> of additional attributes used to initialize the <see cref="SiteMapNode"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
+        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static ActionMapNode AddRootNode(this IActionMapProvider provider, string nodeKey, string title, NameValueCollection attributes)
         {
             return provider.AddRootNode(nodeKey, title, null, attributes);
         }
 
-        public static bool AddRootNode(this IActionMapProvider provider, string nodeKey, string title, string description)
+        /// <summary>
+        /// Adds an <see cref="ActionMapNode"/> object to the <see cref="IActionMapProvider.RootNodes"/> using the specified parent node key,
+        /// title and description.
+        /// </summary>
+        /// <param name="provider">The <see cref="IActionMapProvider"/> to add node with.</param>
+        /// <param name="nodeKey">A provider-specific lookup key.</param>
+        /// <param name="title">A label for the node, often displayed by navigation controls.</param>
+        /// <param name="description">A description of the page that the node represents.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
+        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static ActionMapNode AddRootNode(this IActionMapProvider provider, string nodeKey, string title, string description)
         {
             return provider.AddRootNode(nodeKey, title, description, null);
         }
 
-        public static bool AddRootNode(this IActionMapProvider provider, string nodeKey, string title)
+        /// <summary>
+        /// Adds an <see cref="ActionMapNode"/> object to the <see cref="IActionMapProvider.RootNodes"/> using the specified parent node key and title.
+        /// </summary>
+        /// <param name="provider">The <see cref="IActionMapProvider"/> to add node with.</param>
+        /// <param name="nodeKey">A provider-specific lookup key.</param>
+        /// <param name="title">A label for the node, often displayed by navigation controls.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
+        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static ActionMapNode AddRootNode(this IActionMapProvider provider, string nodeKey, string title)
         {
             return provider.AddRootNode(nodeKey, title, (NameValueCollection)null);
         }
@@ -118,6 +216,12 @@ namespace Lenoard.Security
 
         #region RemoveNode
 
+        /// <summary>
+        /// Removes the specified <see cref="ActionMapNode"/> from the hierarchy by using the specified node key.
+        /// </summary>
+        /// <param name="provider">The <see cref="IActionMapProvider"/> to remove node with.</param>
+        /// <param name="nodeKey">A provider-specific lookup key.</param>
+        /// <returns><c>true</c> if the <see cref="ActionMapNode"/> removed from the hierarchy; otherwise <c>false</c>.</returns>
         public static bool RemoveNode(this IActionMapProvider provider, string nodeKey)
         {
             var node = provider.FindNode(nodeKey);

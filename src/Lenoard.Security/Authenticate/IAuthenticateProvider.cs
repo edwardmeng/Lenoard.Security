@@ -3,6 +3,10 @@ using System.Threading.Tasks;
 
 namespace Lenoard.Security
 {
+    /// <summary>
+    /// Represents the common interface to defined the methods of 
+    /// authorizing role permimissions and retrieving the authorized permissions of the specified role.
+    /// </summary>
     public interface IAuthenticateProvider
     {
         /// <summary>

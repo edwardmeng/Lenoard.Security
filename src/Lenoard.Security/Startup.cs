@@ -4,7 +4,7 @@ using ServiceBridge;
 namespace Lenoard.Security
 {
     [ActivationPriority(ActivationPriority.Highest)]
-    public class Startup
+    class Startup
     {
         public Startup(IActivatingEnvironment env)
         {

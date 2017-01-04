@@ -5,7 +5,8 @@
         "FluentMethods": "1.1.1",
         "MassActivation": "1.3.0",
         "NETStandard.Library": "1.6.1",
-        "ServiceBridge": "1.0.0"
+        "ServiceBridge": "1.0.0",
+        "System.Collections.Specialized": "4.0.1" 
     },
 
   "frameworks": {
@@ -13,10 +14,10 @@
         "imports": "dnxcore50",
         "buildOptions": {
             "compile": {
-                "include": [ "../../*.cs", "../../src/**/*.cs" ]
+                "include": [ "../../*.cs", "../../src/Lenoard.Security/**/*.cs" ]
             },
             "embed": {
-                "include": [ "../../src/*.resx" ]
+                "include": [ "../../src/Lenoard.Security/*.resx" ]
             },
             "define": [ "NetCore" ],
             "keyFile": "../../Lenoard.snk",
