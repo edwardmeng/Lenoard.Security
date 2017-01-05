@@ -17,20 +17,20 @@
     <Compile Include="..\..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\Lenoard.Security\ActionMap\ActionMapExtensions.cs" >
-      <Link>ActionMap\ActionMapExtensions.cs</Link>
+    <Compile Include="..\..\src\Lenoard.Security\Permission\PermissionExtensions.cs" >
+      <Link>Permission\PermissionExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\Lenoard.Security\ActionMap\ActionMapNode.cs" >
-      <Link>ActionMap\ActionMapNode.cs</Link>
+    <Compile Include="..\..\src\Lenoard.Security\Permission\PermissionNode.cs" >
+      <Link>Permission\PermissionNode.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\Lenoard.Security\ActionMap\ActionMapNodeCollection.cs" >
-      <Link>ActionMap\ActionMapNodeCollection.cs</Link>
+    <Compile Include="..\..\src\Lenoard.Security\Permission\PermissionNodeCollection.cs" >
+      <Link>Permission\PermissionNodeCollection.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\Lenoard.Security\ActionMap\DefaultActionMapProvider.cs" >
-      <Link>ActionMap\DefaultActionMapProvider.cs</Link>
+    <Compile Include="..\..\src\Lenoard.Security\Permission\DefaultPermissionProvider.cs" >
+      <Link>Permission\DefaultPermissionProvider.cs</Link>
     </Compile>
-    <Compile Include="..\..\src\Lenoard.Security\ActionMap\IActionMapProvider.cs" >
-      <Link>ActionMap\IActionMapProvider.cs</Link>
+    <Compile Include="..\..\src\Lenoard.Security\Permission\IPermissionProvider.cs" >
+      <Link>Permission\IPermissionProvider.cs</Link>
     </Compile>
     <Compile Include="..\..\src\Lenoard.Security\Authenticate\DefaultAuthenticateProvider.cs" >
       <Link>Authenticate\DefaultAuthenticateProvider.cs</Link>

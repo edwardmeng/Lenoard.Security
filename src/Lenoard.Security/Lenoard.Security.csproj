@@ -56,11 +56,11 @@
     <Compile Include="..\..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="ActionMap\ActionMapExtensions.cs" />
-    <Compile Include="ActionMap\ActionMapNode.cs" />
-    <Compile Include="ActionMap\ActionMapNodeCollection.cs" />
-    <Compile Include="ActionMap\DefaultActionMapProvider.cs" />
-    <Compile Include="ActionMap\IActionMapProvider.cs" />
+    <Compile Include="Permission\PermissionExtensions.cs" />
+    <Compile Include="Permission\PermissionNode.cs" />
+    <Compile Include="Permission\PermissionNodeCollection.cs" />
+    <Compile Include="Permission\DefaultPermissionProvider.cs" />
+    <Compile Include="Permission\IPermissionProvider.cs" />
     <Compile Include="Authenticate\DefaultAuthenticateProvider.cs" />
     <Compile Include="Authenticate\IAuthenticateProvider.cs" />
     <Compile Include="SiteMap\DefaultSiteMapProvider.cs" />

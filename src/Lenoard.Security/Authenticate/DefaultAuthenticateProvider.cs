@@ -12,45 +12,45 @@ namespace Lenoard.Security
         private readonly IDictionary<string, string[]> _roleActions = new Dictionary<string, string[]>();
 
         /// <summary>
-        /// Asynchronously authorizes actions to role.
+        /// Asynchronously grants permissions to role.
         /// </summary>
         /// <param name="roleName">The name of the role.</param>
-        /// <param name="actionKeys">The action keys.</param>
+        /// <param name="permissions">The permissions to be granted.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public virtual Task AuthorizeRoleAsync(string roleName, string[] actionKeys, CancellationToken cancellationToken)
+        public virtual Task AuthorizeRoleAsync(string roleName, string[] permissions, CancellationToken cancellationToken)
         {
-            AuthorizeRole(roleName, actionKeys);
+            AuthorizeRole(roleName, permissions);
             return Task.Delay(0, cancellationToken);
         }
 
         /// <summary>
-        /// Authorizes actions to role.
+        /// Grants permissions to role.
         /// </summary>
         /// <param name="roleName">The name of the role.</param>
-        /// <param name="actionKeys">The action keys.</param>
-        protected virtual void AuthorizeRole(string roleName, string[] actionKeys)
+        /// <param name="permissions">The permissions to be granted.</param>
+        protected virtual void AuthorizeRole(string roleName, string[] permissions)
         {
-            _roleActions.AddOrUpdate(roleName, actionKeys ?? new string[0]);
+            _roleActions.AddOrUpdate(roleName, permissions ?? new string[0]);
         }
 
         /// <summary>
-        /// Asynchronously gets the role authorized actions.
+        /// Asynchronously retrieves the role granted actions.
         /// </summary>
         /// <param name="roleName">The name of the role.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the authorized action keys.</returns>
-        public virtual Task<string[]> GetRoleAuthorizedActionsAsync(string roleName, CancellationToken cancellationToken)
+        /// <returns>A task that represents the asynchronous operation. The task result contains the granted permissions.</returns>
+        public virtual Task<string[]> GetRolePermissionsAsync(string roleName, CancellationToken cancellationToken)
         {
-            return Task.FromResult(GetRoleAuthorizedActions(roleName));
+            return Task.FromResult(GetRolePermissions(roleName));
         }
 
         /// <summary>
-        /// Gets the role authorized actions.
+        /// Retrieves the role granted actions.
         /// </summary>
         /// <param name="roleName">The name of the role.</param>
-        /// <returns>The authorized action keys.</returns>
-        protected virtual string[] GetRoleAuthorizedActions(string roleName)
+        /// <returns>The granted permissions.</returns>
+        protected virtual string[] GetRolePermissions(string roleName)
         {
             string[] actions;
             return _roleActions.TryGetValue(roleName, out actions) ? actions : new string[0];

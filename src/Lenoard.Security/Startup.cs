@@ -9,14 +9,14 @@ namespace Lenoard.Security
         public Startup(IActivatingEnvironment env)
         {
             env.Use<ISiteMapProvider>(new DefaultSiteMapProvider());
-            env.Use<IActionMapProvider>(new DefaultActionMapProvider());
+            env.Use<IPermissionProvider>(new DefaultPermissionProvider());
             env.Use<IAuthenticateProvider>(new DefaultAuthenticateProvider());
         }
 
         public void Configuration(IServiceContainer container)
         {
             container.Register<ISiteMapProvider, DefaultSiteMapProvider>();
-            container.Register<IActionMapProvider, DefaultActionMapProvider>();
+            container.Register<IPermissionProvider, DefaultPermissionProvider>();
             container.Register<IAuthenticateProvider, DefaultAuthenticateProvider>();
         }
     }

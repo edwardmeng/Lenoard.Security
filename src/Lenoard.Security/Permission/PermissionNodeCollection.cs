@@ -6,40 +6,40 @@ using System.Linq;
 namespace Lenoard.Security
 {
     /// <summary>
-    /// Provides a strongly typed collection for <see cref="ActionMapNode"/> objects.
+    /// Provides a strongly typed collection for <see cref="PermissionNode"/> objects.
     /// </summary>
-    public class ActionMapNodeCollection:IList<ActionMapNode>
+    public class PermissionNodeCollection:IList<PermissionNode>
     {
-        private List<ActionMapNode> _innerList;
-        private readonly ActionMapNode _parentNode;
+        private List<PermissionNode> _innerList;
+        private readonly PermissionNode _parentNode;
 
-        private List<ActionMapNode> List => _innerList ?? (_innerList = new List<ActionMapNode>());
+        private List<PermissionNode> List => _innerList ?? (_innerList = new List<PermissionNode>());
 
         #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SiteMapNodeCollection"/> class, which is the default instance.
         /// </summary>
-        internal ActionMapNodeCollection()
+        internal PermissionNodeCollection()
         {
         }
 
-        internal ActionMapNodeCollection(ActionMapNode parentNode)
+        internal PermissionNodeCollection(PermissionNode parentNode)
         {
             _parentNode = parentNode;
         }
 
         #endregion
 
-        #region IList<ActionMapNode> Members
+        #region IList<PermissionNode> Members
 
         /// <summary>
-        /// Adds a single <see cref="ActionMapNode"/> object to the collection.
+        /// Adds a single <see cref="PermissionNode"/> object to the collection.
         /// </summary>
-        /// <param name="value">The <see cref="ActionMapNode"/> to add to the <see cref="SiteMapNodeCollection"/>.</param>
+        /// <param name="value">The <see cref="PermissionNode"/> to add to the <see cref="SiteMapNodeCollection"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
         /// <exception cref="NotSupportedException">The <see cref="SiteMapNodeCollection"/> is read-only.</exception>
-        public virtual void Add(ActionMapNode value)
+        public virtual void Add(PermissionNode value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
             value.ParentNode = _parentNode;
@@ -63,17 +63,17 @@ namespace Lenoard.Security
         }
 
         /// <summary>
-        /// Determines whether the collection contains a specific <see cref="ActionMapNode"/> object.
+        /// Determines whether the collection contains a specific <see cref="PermissionNode"/> object.
         /// </summary>
-        /// <param name="value">The <see cref="ActionMapNode"/> to locate in the <see cref="SiteMapNodeCollection"/>.</param>
+        /// <param name="value">The <see cref="PermissionNode"/> to locate in the <see cref="SiteMapNodeCollection"/>.</param>
         /// <returns>
-        /// <c>true</c> if the <see cref="SiteMapNodeCollection"/> contains the specified <see cref="ActionMapNode"/>; 
+        /// <c>true</c> if the <see cref="SiteMapNodeCollection"/> contains the specified <see cref="PermissionNode"/>; 
         /// otherwise, <c>false</c>.
         /// </returns>
         /// <remarks>
         /// The Contains method determines equality by calling the <see cref="Object.Equals(object,object)"/> method.
         /// </remarks>
-        public virtual bool Contains(ActionMapNode value)
+        public virtual bool Contains(PermissionNode value)
         {
             return _innerList != null && _innerList.Contains(value);
         }
@@ -88,9 +88,9 @@ namespace Lenoard.Security
         /// <exception cref="ArgumentException">
         /// array is multidimensional.
         /// -or- 
-        /// The number of <see cref="ActionMapNode"/> objects in the source <see cref="SiteMapNodeCollection"/> is greater than the available space from index to the end of array.
+        /// The number of <see cref="PermissionNode"/> objects in the source <see cref="SiteMapNodeCollection"/> is greater than the available space from index to the end of array.
         /// </exception>
-        public virtual void CopyTo(ActionMapNode[] array, int index)
+        public virtual void CopyTo(PermissionNode[] array, int index)
         {
             _innerList?.CopyTo(array, index);
         }
@@ -98,26 +98,26 @@ namespace Lenoard.Security
         /// <summary>
         /// Retrieves a reference to an enumerator object, which is used to iterate over the collection.
         /// </summary>
-        /// <returns>An object that implements the <see cref="IEnumerator{ActionMapNode}"/>.</returns>
-        public virtual IEnumerator<ActionMapNode> GetEnumerator()
+        /// <returns>An object that implements the <see cref="IEnumerator{PermissionNode}"/>.</returns>
+        public virtual IEnumerator<PermissionNode> GetEnumerator()
         {
             if (_innerList == null)
             {
-                return Enumerable.Empty<ActionMapNode>().GetEnumerator();
+                return Enumerable.Empty<PermissionNode>().GetEnumerator();
             }
             return _innerList.GetEnumerator();
         }
 
         /// <summary>
-        /// Searches for the specified <see cref="ActionMapNode"/> object, and then returns the zero-based index 
+        /// Searches for the specified <see cref="PermissionNode"/> object, and then returns the zero-based index 
         /// of the first occurrence within the entire collection.
         /// </summary>
-        /// <param name="value">The <see cref="ActionMapNode"/> to locate in the <see cref="SiteMapNodeCollection"/>.</param>
+        /// <param name="value">The <see cref="PermissionNode"/> to locate in the <see cref="SiteMapNodeCollection"/>.</param>
         /// <returns>
         /// The zero-based index of the first occurrence of value within the entire <see cref="SiteMapNodeCollection"/>, if found; 
         /// otherwise, -1.
         /// </returns>
-        public virtual int IndexOf(ActionMapNode value)
+        public virtual int IndexOf(PermissionNode value)
         {
             if (_innerList == null)
             {
@@ -127,10 +127,10 @@ namespace Lenoard.Security
         }
 
         /// <summary>
-        /// Inserts the specified <see cref="ActionMapNode"/> object into the collection at the specified index.
+        /// Inserts the specified <see cref="PermissionNode"/> object into the collection at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index at which the <see cref="ActionMapNode"/> is inserted.</param>
-        /// <param name="value">The <see cref="ActionMapNode"/> to insert.</param>
+        /// <param name="index">The zero-based index at which the <see cref="PermissionNode"/> is inserted.</param>
+        /// <param name="value">The <see cref="PermissionNode"/> to insert.</param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="index"/> is less than zero.
         /// -or- 
@@ -142,7 +142,7 @@ namespace Lenoard.Security
         /// The <see cref="SiteMapNodeCollection"/> has a fixed size.
         /// </exception>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
-        public virtual void Insert(int index, ActionMapNode value)
+        public virtual void Insert(int index, PermissionNode value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
             value.ParentNode = _parentNode;
@@ -150,13 +150,13 @@ namespace Lenoard.Security
         }
 
         /// <summary>
-        /// Inserts an array of type <see cref="ActionMapNode"/> to the collection at the specified index.
+        /// Inserts an array of type <see cref="PermissionNode"/> to the collection at the specified index.
         /// </summary>
-        /// <param name="index">The zero-based index at which the <see cref="ActionMapNode"/> is inserted.</param>
-        /// <param name="value">An array of type <see cref="ActionMapNode"/> to insert to the current <see cref="SiteMapNodeCollection"/>.</param>
+        /// <param name="index">The zero-based index at which the <see cref="PermissionNode"/> is inserted.</param>
+        /// <param name="value">An array of type <see cref="PermissionNode"/> to insert to the current <see cref="SiteMapNodeCollection"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
         /// <exception cref="NotSupportedException">The <see cref="SiteMapNodeCollection"/> is read-only.</exception>
-        public virtual void InsertRange(int index, IEnumerable<ActionMapNode> value)
+        public virtual void InsertRange(int index, IEnumerable<PermissionNode> value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
             var array = value.ToArray();
@@ -165,16 +165,16 @@ namespace Lenoard.Security
         }
 
         /// <summary>
-        /// Removes the specified <see cref="ActionMapNode"/> object from the collection.
+        /// Removes the specified <see cref="PermissionNode"/> object from the collection.
         /// </summary>
-        /// <param name="value">The <see cref="ActionMapNode"/> to remove from the <see cref="SiteMapNodeCollection"/>.</param>
+        /// <param name="value">The <see cref="PermissionNode"/> to remove from the <see cref="SiteMapNodeCollection"/>.</param>
         /// <returns>
-        /// <c>true</c> if the <see cref="ActionMapNode"/> is removed from the <see cref="SiteMapNodeCollection"/>; otherwise <c>false</c>.
+        /// <c>true</c> if the <see cref="PermissionNode"/> is removed from the <see cref="SiteMapNodeCollection"/>; otherwise <c>false</c>.
         /// </returns>
         /// <exception cref="NotSupportedException">
         /// The <see cref="SiteMapNodeCollection"/> is read-only or has a fixed size.
         /// </exception>
-        public virtual bool Remove(ActionMapNode value)
+        public virtual bool Remove(PermissionNode value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
             if (Contains(value))
@@ -186,7 +186,7 @@ namespace Lenoard.Security
         }
 
         /// <summary>
-        /// Removes the <see cref="ActionMapNode"/> object at the specified index of the collection.
+        /// Removes the <see cref="PermissionNode"/> object at the specified index of the collection.
         /// </summary>
         /// <param name="index">The zero-based index of the element to remove.</param>
         /// <exception cref="ArgumentOutOfRangeException">
@@ -230,13 +230,13 @@ namespace Lenoard.Security
         public virtual bool IsReadOnly => false;
 
         /// <summary>
-        /// Gets or sets the <see cref="ActionMapNode"/> object at the specified index in the collection.
+        /// Gets or sets the <see cref="PermissionNode"/> object at the specified index in the collection.
         /// </summary>
-        /// <param name="index">The index of the <see cref="ActionMapNode"/> to find.</param>
-        /// <returns>A <see cref="ActionMapNode"/> that represents an element in the <see cref="SiteMapNodeCollection"/>.</returns>
+        /// <param name="index">The index of the <see cref="PermissionNode"/> to find.</param>
+        /// <returns>A <see cref="PermissionNode"/> that represents an element in the <see cref="SiteMapNodeCollection"/>.</returns>
         /// <exception cref="ArgumentNullException">The value supplied to the setter is null.</exception>
         /// <exception cref="NotSupportedException">The <see cref="SiteMapNodeCollection"/> is read-only.</exception>
-        public virtual ActionMapNode this[int index]
+        public virtual PermissionNode this[int index]
         {
             get { return List[index]; }
             set
@@ -250,12 +250,12 @@ namespace Lenoard.Security
         #endregion
 
         /// <summary>
-        /// Adds an array of type <see cref="ActionMapNode"/> to the collection.
+        /// Adds an array of type <see cref="PermissionNode"/> to the collection.
         /// </summary>
-        /// <param name="value">An array of type <see cref="ActionMapNode"/> to add to the current <see cref="SiteMapNodeCollection"/>.</param>
+        /// <param name="value">An array of type <see cref="PermissionNode"/> to add to the current <see cref="SiteMapNodeCollection"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="value"/> is null.</exception>
         /// <exception cref="NotSupportedException">The <see cref="SiteMapNodeCollection"/> is read-only.</exception>
-        public virtual void AddRange(IEnumerable<ActionMapNode> value)
+        public virtual void AddRange(IEnumerable<PermissionNode> value)
         {
             if (value == null) throw new ArgumentNullException(nameof(value));
             foreach (var node in value)

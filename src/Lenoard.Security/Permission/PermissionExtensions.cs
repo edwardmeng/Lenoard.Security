@@ -4,13 +4,13 @@ using System.Collections.Specialized;
 namespace Lenoard.Security
 {
     /// <summary>
-    /// Provides a set of <see langword="static"/> extension methods for the <see cref="IActionMapProvider"/>
+    /// Provides a set of <see langword="static"/> extension methods for the <see cref="IPermissionProvider"/>
     /// </summary>
-    public static class ActionMapExtensions
+    public static class PermissionExtensions
     {
-        private static ActionMapNode CreateNode(string nodeKey, string title, string description, NameValueCollection attributes)
+        private static PermissionNode CreateNode(string nodeKey, string title, string description, NameValueCollection attributes)
         {
-            var node = new ActionMapNode(nodeKey)
+            var node = new PermissionNode(nodeKey)
             {
                 Title = title,
                 Description = description,
@@ -28,17 +28,17 @@ namespace Lenoard.Security
         #region FindNode
 
         /// <summary>
-        /// Retrieves a <see cref="ActionMapNode"/> object based on a specified key.
+        /// Retrieves a <see cref="PermissionNode"/> object based on a specified key.
         /// </summary>
-        /// <param name="provider">The <see cref="IActionMapProvider"/> to lookup with.</param>
-        /// <param name="key">A lookup key with which a <see cref="ActionMapNode"/> is created.</param>
+        /// <param name="provider">The <see cref="IPermissionProvider"/> to lookup with.</param>
+        /// <param name="key">A lookup key with which a <see cref="PermissionNode"/> is created.</param>
         /// <returns>
-        /// A <see cref="ActionMapNode"/> that represents the page identified by key; 
-        /// otherwise, null, if no corresponding <see cref="ActionMapNode"/> is found.
+        /// A <see cref="PermissionNode"/> that represents the page identified by key; 
+        /// otherwise, null, if no corresponding <see cref="PermissionNode"/> is found.
         /// The default is null.
         /// </returns>
         /// <exception cref="ArgumentNullException">The <paramref name="provider"/> or <paramref name="key"/> is null.</exception>
-        public static ActionMapNode FindNode(this IActionMapProvider provider, string key)
+        public static PermissionNode FindNode(this IPermissionProvider provider, string key)
         {
             if (provider == null)
             {
@@ -50,7 +50,7 @@ namespace Lenoard.Security
             }
             key = key.Trim();
             if (key.Length == 0) return null;
-            ActionMapNode node = null;
+            PermissionNode node = null;
             provider.RootNodes.Traverse(x => x.ChildNodes, x =>
             {
                 if (x.Key == key)
@@ -70,7 +70,7 @@ namespace Lenoard.Security
         #region AddNode
 
         /// <summary>
-        /// Adds an <see cref="ActionMapNode"/> object to the hierarchy using the specified parent node key,
+        /// Adds an <see cref="PermissionNode"/> object to the hierarchy using the specified parent node key,
         /// title, description and additional attributes
         /// </summary>
         /// <param name="provider">The <see cref="ISiteMapProvider"/> to add node with.</param>
@@ -80,8 +80,8 @@ namespace Lenoard.Security
         /// <param name="description">A description of the page that the node represents.</param>
         /// <param name="attributes">A <see cref="NameValueCollection"/> of additional attributes used to initialize the <see cref="SiteMapNode"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
-        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static ActionMapNode AddNode(this IActionMapProvider provider, string parentNode, string nodeKey, string title, string description, NameValueCollection attributes)
+        /// <returns>The created <see cref="PermissionNode"/> or the found <see cref="PermissionNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static PermissionNode AddNode(this IPermissionProvider provider, string parentNode, string nodeKey, string title, string description, NameValueCollection attributes)
         {
             var node = provider.FindNode(nodeKey);
             if (node == null)
@@ -98,7 +98,7 @@ namespace Lenoard.Security
         }
 
         /// <summary>
-        /// Adds an <see cref="ActionMapNode"/> object to the hierarchy using the specified parent node key,
+        /// Adds an <see cref="PermissionNode"/> object to the hierarchy using the specified parent node key,
         /// title and additional attributes
         /// </summary>
         /// <param name="provider">The <see cref="ISiteMapProvider"/> to add node with.</param>
@@ -107,14 +107,14 @@ namespace Lenoard.Security
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <param name="attributes">A <see cref="NameValueCollection"/> of additional attributes used to initialize the <see cref="SiteMapNode"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
-        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static ActionMapNode AddNode(this IActionMapProvider provider, string parentNode, string nodeKey, string title, NameValueCollection attributes)
+        /// <returns>The created <see cref="PermissionNode"/> or the found <see cref="PermissionNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static PermissionNode AddNode(this IPermissionProvider provider, string parentNode, string nodeKey, string title, NameValueCollection attributes)
         {
             return provider.AddNode(parentNode, nodeKey, title, null, attributes);
         }
 
         /// <summary>
-        /// Adds an <see cref="ActionMapNode"/> object to the hierarchy using the specified parent node key,
+        /// Adds an <see cref="PermissionNode"/> object to the hierarchy using the specified parent node key,
         /// title and description
         /// </summary>
         /// <param name="provider">The <see cref="ISiteMapProvider"/> to add node with.</param>
@@ -123,22 +123,22 @@ namespace Lenoard.Security
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <param name="description">A description of the page that the node represents.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
-        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static ActionMapNode AddNode(this IActionMapProvider provider, string parentNode, string nodeKey, string title, string description)
+        /// <returns>The created <see cref="PermissionNode"/> or the found <see cref="PermissionNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static PermissionNode AddNode(this IPermissionProvider provider, string parentNode, string nodeKey, string title, string description)
         {
             return provider.AddNode(parentNode, nodeKey, title, description, null);
         }
 
         /// <summary>
-        /// Adds an <see cref="ActionMapNode"/> object to the hierarchy using the specified parent node key and title.
+        /// Adds an <see cref="PermissionNode"/> object to the hierarchy using the specified parent node key and title.
         /// </summary>
         /// <param name="provider">The <see cref="ISiteMapProvider"/> to add node with.</param>
         /// <param name="parentNode">The parent node key</param>
         /// <param name="nodeKey">A provider-specific lookup key.</param>
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
-        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static ActionMapNode AddNode(this IActionMapProvider provider, string parentNode, string nodeKey, string title)
+        /// <returns>The created <see cref="PermissionNode"/> or the found <see cref="PermissionNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static PermissionNode AddNode(this IPermissionProvider provider, string parentNode, string nodeKey, string title)
         {
             return provider.AddNode(parentNode, nodeKey, title, (NameValueCollection)null);
         }
@@ -148,17 +148,17 @@ namespace Lenoard.Security
         #region AddRootNode
 
         /// <summary>
-        /// Adds an <see cref="ActionMapNode"/> object to the <see cref="IActionMapProvider.RootNodes"/> using the specified parent node key,
+        /// Adds an <see cref="PermissionNode"/> object to the <see cref="IPermissionProvider.RootNodes"/> using the specified parent node key,
         /// title, description and additional attributes
         /// </summary>
-        /// <param name="provider">The <see cref="IActionMapProvider"/> to add node with.</param>
+        /// <param name="provider">The <see cref="IPermissionProvider"/> to add node with.</param>
         /// <param name="nodeKey">A provider-specific lookup key.</param>
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <param name="description">A description of the page that the node represents.</param>
         /// <param name="attributes">A <see cref="NameValueCollection"/> of additional attributes used to initialize the <see cref="SiteMapNode"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
-        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static ActionMapNode AddRootNode(this IActionMapProvider provider, string nodeKey, string title, string description, NameValueCollection attributes)
+        /// <returns>The created <see cref="PermissionNode"/> or the found <see cref="PermissionNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static PermissionNode AddRootNode(this IPermissionProvider provider, string nodeKey, string title, string description, NameValueCollection attributes)
         {
             var node = provider.FindNode(nodeKey);
             if (node == null)
@@ -170,44 +170,44 @@ namespace Lenoard.Security
         }
 
         /// <summary>
-        /// Adds an <see cref="ActionMapNode"/> object to the <see cref="IActionMapProvider.RootNodes"/> using the specified parent node key,
+        /// Adds an <see cref="PermissionNode"/> object to the <see cref="IPermissionProvider.RootNodes"/> using the specified parent node key,
         /// title and additional attributes
         /// </summary>
-        /// <param name="provider">The <see cref="IActionMapProvider"/> to add node with.</param>
+        /// <param name="provider">The <see cref="IPermissionProvider"/> to add node with.</param>
         /// <param name="nodeKey">A provider-specific lookup key.</param>
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <param name="attributes">A <see cref="NameValueCollection"/> of additional attributes used to initialize the <see cref="SiteMapNode"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
-        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static ActionMapNode AddRootNode(this IActionMapProvider provider, string nodeKey, string title, NameValueCollection attributes)
+        /// <returns>The created <see cref="PermissionNode"/> or the found <see cref="PermissionNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static PermissionNode AddRootNode(this IPermissionProvider provider, string nodeKey, string title, NameValueCollection attributes)
         {
             return provider.AddRootNode(nodeKey, title, null, attributes);
         }
 
         /// <summary>
-        /// Adds an <see cref="ActionMapNode"/> object to the <see cref="IActionMapProvider.RootNodes"/> using the specified parent node key,
+        /// Adds an <see cref="PermissionNode"/> object to the <see cref="IPermissionProvider.RootNodes"/> using the specified parent node key,
         /// title and description.
         /// </summary>
-        /// <param name="provider">The <see cref="IActionMapProvider"/> to add node with.</param>
+        /// <param name="provider">The <see cref="IPermissionProvider"/> to add node with.</param>
         /// <param name="nodeKey">A provider-specific lookup key.</param>
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <param name="description">A description of the page that the node represents.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
-        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static ActionMapNode AddRootNode(this IActionMapProvider provider, string nodeKey, string title, string description)
+        /// <returns>The created <see cref="PermissionNode"/> or the found <see cref="PermissionNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static PermissionNode AddRootNode(this IPermissionProvider provider, string nodeKey, string title, string description)
         {
             return provider.AddRootNode(nodeKey, title, description, null);
         }
 
         /// <summary>
-        /// Adds an <see cref="ActionMapNode"/> object to the <see cref="IActionMapProvider.RootNodes"/> using the specified parent node key and title.
+        /// Adds an <see cref="PermissionNode"/> object to the <see cref="IPermissionProvider.RootNodes"/> using the specified parent node key and title.
         /// </summary>
-        /// <param name="provider">The <see cref="IActionMapProvider"/> to add node with.</param>
+        /// <param name="provider">The <see cref="IPermissionProvider"/> to add node with.</param>
         /// <param name="nodeKey">A provider-specific lookup key.</param>
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
-        /// <returns>The created <see cref="ActionMapNode"/> or the found <see cref="ActionMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static ActionMapNode AddRootNode(this IActionMapProvider provider, string nodeKey, string title)
+        /// <returns>The created <see cref="PermissionNode"/> or the found <see cref="PermissionNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
+        public static PermissionNode AddRootNode(this IPermissionProvider provider, string nodeKey, string title)
         {
             return provider.AddRootNode(nodeKey, title, (NameValueCollection)null);
         }
@@ -217,12 +217,12 @@ namespace Lenoard.Security
         #region RemoveNode
 
         /// <summary>
-        /// Removes the specified <see cref="ActionMapNode"/> from the hierarchy by using the specified node key.
+        /// Removes the specified <see cref="PermissionNode"/> from the hierarchy by using the specified node key.
         /// </summary>
-        /// <param name="provider">The <see cref="IActionMapProvider"/> to remove node with.</param>
+        /// <param name="provider">The <see cref="IPermissionProvider"/> to remove node with.</param>
         /// <param name="nodeKey">A provider-specific lookup key.</param>
-        /// <returns><c>true</c> if the <see cref="ActionMapNode"/> removed from the hierarchy; otherwise <c>false</c>.</returns>
-        public static bool RemoveNode(this IActionMapProvider provider, string nodeKey)
+        /// <returns><c>true</c> if the <see cref="PermissionNode"/> removed from the hierarchy; otherwise <c>false</c>.</returns>
+        public static bool RemoveNode(this IPermissionProvider provider, string nodeKey)
         {
             var node = provider.FindNode(nodeKey);
             if (node == null) return false;

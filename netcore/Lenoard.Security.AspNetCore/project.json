@@ -1,0 +1,23 @@
+﻿{
+  "version": "1.0.0-*",
+
+    "dependencies": {
+        "Lenoard.Security": { "target": "project" },
+        "Microsoft.AspNetCore": "1.1.0",
+        "Microsoft.AspNetCore.Identity": "1.1.0",
+        "Microsoft.AspNetCore.Mvc": "1.1.0",
+        "NETStandard.Library": "1.6.1"
+    },
+
+  "frameworks": {
+    "netstandard1.6": {
+        "imports": "dnxcore50",
+        "buildOptions": {
+            "define": [ "NetCore" ],
+            "keyFile": "../../Lenoard.snk",
+            "xmlDoc": true,
+            "outputName": "Lenoard.Security.AspNetCore"
+        }
+    }
+  }
+}
