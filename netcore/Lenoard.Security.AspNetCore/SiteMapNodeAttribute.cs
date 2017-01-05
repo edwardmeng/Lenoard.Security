@@ -51,12 +51,13 @@ namespace Lenoard.Security.AspNetCore
         private bool AuthorizeCore(HttpContext context)
         {
             var provider = context.RequestServices.GetService<ISiteMapProvider>();
-            var siteMapNode = provider?.FindNode(Key);
-            if (!string.IsNullOrEmpty(siteMapNode?.RequiredAction))
-            {
-                return Claims.GetPermissions(context).Contains(siteMapNode.RequiredAction, StringComparer.CurrentCultureIgnoreCase);
-            }
-            return true;
+            var requiredAction = provider?.FindNode(Key)?.RequiredPermission;
+            return string.IsNullOrEmpty(requiredAction) || Authenticate(Claims.GetPermissions(context).ToArray(), requiredAction);
+        }
+
+        protected virtual bool Authenticate(string[] grantedPermissions, string requiredPermission)
+        {
+            return grantedPermissions.Contains(requiredPermission, StringComparer.CurrentCultureIgnoreCase);
         }
     }
 }

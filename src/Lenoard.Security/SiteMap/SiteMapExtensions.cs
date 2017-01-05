@@ -8,14 +8,14 @@ namespace Lenoard.Security
     /// </summary>
     public static class SiteMapExtensions
     {
-        private static SiteMapNode CreateNode(string nodeKey, string title, string url, string description, string requiredAction, NameValueCollection attributes)
+        private static SiteMapNode CreateNode(string nodeKey, string title, string url, string description, string requiredPermission, NameValueCollection attributes)
         {
             var node = new SiteMapNode(nodeKey)
             {
                 Title = title,
                 Url = url,
                 Description = description,
-                RequiredAction = requiredAction
+                RequiredPermission = requiredPermission
             };
             if (attributes != null)
             {
@@ -81,11 +81,11 @@ namespace Lenoard.Security
         /// <param name="url">The URL of the page that the node represents within the site.</param>
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <param name="description">A description of the page that the node represents.</param>
-        /// <param name="requiredAction">An action that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
+        /// <param name="requiredPermission">An string that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
         /// <param name="attributes">A <see cref="NameValueCollection"/> of additional attributes used to initialize the <see cref="SiteMapNode"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
         /// <returns>The created <see cref="SiteMapNode"/> or the found <see cref="SiteMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static SiteMapNode AddNode(this ISiteMapProvider provider, string parentNode, string nodeKey, string title, string url, string description, string requiredAction, NameValueCollection attributes)
+        public static SiteMapNode AddNode(this ISiteMapProvider provider, string parentNode, string nodeKey, string title, string url, string description, string requiredPermission, NameValueCollection attributes)
         {
             var node = provider.FindNode(nodeKey);
             if (node == null)
@@ -95,7 +95,7 @@ namespace Lenoard.Security
                 {
                     throw new ArgumentException($"The site map node '{parentNode}' cannot be found.");
                 }
-                node = CreateNode(nodeKey, title, url, description, requiredAction, attributes);
+                node = CreateNode(nodeKey, title, url, description, requiredPermission, attributes);
                 parentSiteMapNode.ChildNodes.Add(node);
             }
             return node;
@@ -162,12 +162,12 @@ namespace Lenoard.Security
         /// <param name="url">The URL of the page that the node represents within the site.</param>
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <param name="description">A description of the page that the node represents.</param>
-        /// <param name="requiredAction">An action that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
+        /// <param name="requiredPermission">An string that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
         /// <returns>The created <see cref="SiteMapNode"/> or the found <see cref="SiteMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static SiteMapNode AddNode(this ISiteMapProvider provider, string parentNode, string nodeKey, string title, string url, string description, string requiredAction)
+        public static SiteMapNode AddNode(this ISiteMapProvider provider, string parentNode, string nodeKey, string title, string url, string description, string requiredPermission)
         {
-            return provider.AddNode(parentNode, nodeKey, title, url, description, requiredAction, null);
+            return provider.AddNode(parentNode, nodeKey, title, url, description, requiredPermission, null);
         }
 
         /// <summary>
@@ -232,16 +232,16 @@ namespace Lenoard.Security
         /// <param name="url">The URL of the page that the node represents within the site.</param>
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <param name="description">A description of the page that the node represents.</param>
-        /// <param name="requiredAction">An action that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
+        /// <param name="requiredPermission">An string that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
         /// <param name="attributes">A <see cref="NameValueCollection"/> of additional attributes used to initialize the <see cref="SiteMapNode"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
         /// <returns>The created <see cref="SiteMapNode"/> or the found <see cref="SiteMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static SiteMapNode AddRootNode(this ISiteMapProvider provider, string nodeKey, string title, string url, string description, string requiredAction, NameValueCollection attributes)
+        public static SiteMapNode AddRootNode(this ISiteMapProvider provider, string nodeKey, string title, string url, string description, string requiredPermission, NameValueCollection attributes)
         {
             var node = provider.FindNode(nodeKey);
             if (node == null)
             {
-                node = CreateNode(nodeKey, title, url, description, requiredAction, attributes);
+                node = CreateNode(nodeKey, title, url, description, requiredPermission, attributes);
                 provider.RootNodes.Add(node);
             }
             return node;
@@ -304,12 +304,12 @@ namespace Lenoard.Security
         /// <param name="url">The URL of the page that the node represents within the site.</param>
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <param name="description">A description of the page that the node represents.</param>
-        /// <param name="requiredAction">An action that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
+        /// <param name="requiredPermission">An action that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
         /// <returns>The created <see cref="SiteMapNode"/> or the found <see cref="SiteMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static SiteMapNode AddRootNode(this ISiteMapProvider provider, string nodeKey, string title, string url, string description, string requiredAction)
+        public static SiteMapNode AddRootNode(this ISiteMapProvider provider, string nodeKey, string title, string url, string description, string requiredPermission)
         {
-            return provider.AddRootNode(nodeKey, title, url, description, requiredAction, null);
+            return provider.AddRootNode(nodeKey, title, url, description, requiredPermission, null);
         }
 
         /// <summary>
@@ -371,11 +371,11 @@ namespace Lenoard.Security
         /// <param name="url">The URL of the page that the node represents within the site.</param>
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <param name="description">A description of the page that the node represents.</param>
-        /// <param name="requiredAction">An action that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
+        /// <param name="requiredPermission">An string that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
         /// <param name="attributes">A <see cref="NameValueCollection"/> of additional attributes used to initialize the <see cref="SiteMapNode"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
         /// <returns>The created <see cref="SiteMapNode"/> or the found <see cref="SiteMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static SiteMapNode AddNodeBefore(this ISiteMapProvider provider, string siblingNodeKey, string nodeKey, string title, string url, string description, string requiredAction, NameValueCollection attributes)
+        public static SiteMapNode AddNodeBefore(this ISiteMapProvider provider, string siblingNodeKey, string nodeKey, string title, string url, string description, string requiredPermission, NameValueCollection attributes)
         {
             var node = provider.FindNode(nodeKey);
             if (node == null)
@@ -386,7 +386,7 @@ namespace Lenoard.Security
                     throw new ArgumentException($"The site map node '{siblingNodeKey}' cannot be found.");
                 }
                 var parentCollection = siblingNode.ParentNode?.ChildNodes ?? provider.RootNodes;
-                node = CreateNode(nodeKey, title, url, description, requiredAction, attributes);
+                node = CreateNode(nodeKey, title, url, description, requiredPermission, attributes);
                 parentCollection.Insert(parentCollection.IndexOf(siblingNode), node);
             }
             return node;
@@ -453,12 +453,12 @@ namespace Lenoard.Security
         /// <param name="url">The URL of the page that the node represents within the site.</param>
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <param name="description">A description of the page that the node represents.</param>
-        /// <param name="requiredAction">An action that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
+        /// <param name="requiredPermission">An string that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
         /// <returns>The created <see cref="SiteMapNode"/> or the found <see cref="SiteMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static SiteMapNode AddNodeBefore(this ISiteMapProvider provider, string siblingNodeKey, string nodeKey, string title, string url, string description, string requiredAction)
+        public static SiteMapNode AddNodeBefore(this ISiteMapProvider provider, string siblingNodeKey, string nodeKey, string title, string url, string description, string requiredPermission)
         {
-            return provider.AddNodeBefore(siblingNodeKey, nodeKey, title, url, description, requiredAction, null);
+            return provider.AddNodeBefore(siblingNodeKey, nodeKey, title, url, description, requiredPermission, null);
         }
 
         /// <summary>
@@ -523,11 +523,11 @@ namespace Lenoard.Security
         /// <param name="url">The URL of the page that the node represents within the site.</param>
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <param name="description">A description of the page that the node represents.</param>
-        /// <param name="requiredAction">An action that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
+        /// <param name="requiredPermission">An string that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
         /// <param name="attributes">A <see cref="NameValueCollection"/> of additional attributes used to initialize the <see cref="SiteMapNode"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
         /// <returns>The created <see cref="SiteMapNode"/> or the found <see cref="SiteMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static SiteMapNode AddNodeAfter(this ISiteMapProvider provider, string siblingNodeKey, string nodeKey, string title, string url, string description, string requiredAction, NameValueCollection attributes)
+        public static SiteMapNode AddNodeAfter(this ISiteMapProvider provider, string siblingNodeKey, string nodeKey, string title, string url, string description, string requiredPermission, NameValueCollection attributes)
         {
             var node = provider.FindNode(nodeKey);
             if (node == null)
@@ -538,7 +538,7 @@ namespace Lenoard.Security
                     throw new ArgumentException($"The site map node '{siblingNodeKey}' cannot be found.");
                 }
                 var parentCollection = siblingNode.ParentNode?.ChildNodes ?? provider.RootNodes;
-                node = CreateNode(nodeKey, title, url, description, requiredAction, attributes);
+                node = CreateNode(nodeKey, title, url, description, requiredPermission, attributes);
                 parentCollection.Insert(parentCollection.IndexOf(siblingNode) + 1, node);
             }
             return node;
@@ -605,12 +605,12 @@ namespace Lenoard.Security
         /// <param name="url">The URL of the page that the node represents within the site.</param>
         /// <param name="title">A label for the node, often displayed by navigation controls.</param>
         /// <param name="description">A description of the page that the node represents.</param>
-        /// <param name="requiredAction">An action that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
+        /// <param name="requiredPermission">An string that controls the access permission to view the page represented by the <see cref="SiteMapNode"/>.</param>
         /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="nodeKey"/> is null.</exception>
         /// <returns>The created <see cref="SiteMapNode"/> or the found <see cref="SiteMapNode"/> if the <paramref name="nodeKey"/> has been exist.</returns>
-        public static SiteMapNode AddNodeAfter(this ISiteMapProvider provider, string siblingNodeKey, string nodeKey, string title, string url, string description, string requiredAction)
+        public static SiteMapNode AddNodeAfter(this ISiteMapProvider provider, string siblingNodeKey, string nodeKey, string title, string url, string description, string requiredPermission)
         {
-            return provider.AddNodeAfter(siblingNodeKey, nodeKey, title, url, description, requiredAction, null);
+            return provider.AddNodeAfter(siblingNodeKey, nodeKey, title, url, description, requiredPermission, null);
         }
 
         /// <summary>

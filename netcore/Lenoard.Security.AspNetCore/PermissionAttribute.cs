@@ -48,9 +48,17 @@ namespace Lenoard.Security.AspNetCore
 
         private bool AuthorizeCore(HttpContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
             if (Permissions.Length <= 0) return true;
-            var grantedPermissions = Claims.GetPermissions(context).ToArray();
-            return Permissions.All(permission => grantedPermissions.Contains(permission));
+            return Authenticate(Claims.GetPermissions(context).ToArray());
+        }
+
+        protected virtual bool Authenticate(string[] grantedPermissions)
+        {
+            return Permissions.All(permission => grantedPermissions.Contains(permission, StringComparer.CurrentCultureIgnoreCase));
         }
     }
 }

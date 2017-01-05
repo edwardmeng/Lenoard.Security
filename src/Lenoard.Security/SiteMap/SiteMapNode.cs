@@ -40,7 +40,7 @@ namespace Lenoard.Security
         /// </summary>
         /// <value>
         /// A <see cref="NameValueCollection"/> of additional attributes for the <see cref="SiteMapNode"/> 
-        /// beyond Title, Description, Url, and RequiredAction.</value>
+        /// beyond Title, Description, Url, and RequiredPermission.</value>
         protected NameValueCollection Attributes => _attributes ?? (_attributes = new NameValueCollection());
 
         /// <summary>
@@ -90,11 +90,10 @@ namespace Lenoard.Security
         public virtual string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets the required action for the <see cref="SiteMapNode"/>.
+        /// Gets or sets the required permission for the <see cref="SiteMapNode"/>.
         /// </summary>
-        /// <value>A string that represents the required action of the node; otherwise, <see cref="String.Empty"/>.</value>
-        /// <exception cref="InvalidOperationException">The node is read-only.</exception>
-        public virtual string RequiredAction { get; set; }
+        /// <value>A string that represents the required permission of the node; otherwise, <see cref="String.Empty"/>.</value>
+        public virtual string RequiredPermission { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="SiteMapNode"/> object that is the parent of the current node.

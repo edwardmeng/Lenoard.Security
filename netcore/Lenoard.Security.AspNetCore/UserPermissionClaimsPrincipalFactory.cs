@@ -32,18 +32,18 @@ namespace Lenoard.Security.AspNetCore
             var principle = await base.CreateAsync(user);
             if (UserManager.SupportsUserRole)
             {
-                var actions = new List<string>();
+                var permissions = new List<string>();
                 foreach (var claim in principle.Claims)
                 {
                     if (claim.Type == Options.ClaimsIdentity.RoleClaimType)
                     {
-                        actions.AddRange(await AuthenticateProvider.GetRolePermissionsAsync(claim.Value, CancellationToken.None));
+                        permissions.AddRange(await AuthenticateProvider.GetRolePermissionsAsync(claim.Value, CancellationToken.None));
                     }
                 }
                 var identity = principle.Identities.First(x => x.IsAuthenticated);
-                foreach (var action in actions.Distinct())
+                foreach (var permission in permissions.Distinct())
                 {
-                    identity.AddClaim(new Claim(Claims.PermissionType, action));
+                    identity.AddClaim(new Claim(Claims.PermissionType, permission));
                 }
             }
             return principle;
