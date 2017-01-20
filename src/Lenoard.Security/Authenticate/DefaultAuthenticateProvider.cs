@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Lenoard.Security
@@ -16,12 +15,11 @@ namespace Lenoard.Security
         /// </summary>
         /// <param name="roleName">The name of the role.</param>
         /// <param name="permissions">The permissions to be granted.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        public virtual Task AuthorizeRoleAsync(string roleName, string[] permissions, CancellationToken cancellationToken)
+        public virtual Task AuthorizeRoleAsync(string roleName, string[] permissions)
         {
             AuthorizeRole(roleName, permissions);
-            return Task.Delay(0, cancellationToken);
+            return Task.Delay(0);
         }
 
         /// <summary>
@@ -38,9 +36,8 @@ namespace Lenoard.Security
         /// Asynchronously retrieves the role granted actions.
         /// </summary>
         /// <param name="roleName">The name of the role.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the granted permissions.</returns>
-        public virtual Task<string[]> GetRolePermissionsAsync(string roleName, CancellationToken cancellationToken)
+        public virtual Task<string[]> GetRolePermissionsAsync(string roleName)
         {
             return Task.FromResult(GetRolePermissions(roleName));
         }

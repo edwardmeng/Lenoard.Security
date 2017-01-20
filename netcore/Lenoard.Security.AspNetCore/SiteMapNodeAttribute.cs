@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Lenoard.Security.AspNetCore
 {
@@ -29,7 +29,7 @@ namespace Lenoard.Security.AspNetCore
         /// <value>
         /// The key to lookup site map node.
         /// </value>
-        public string Key { get; private set; }
+        public string Key { get; }
 
         void IAuthorizationFilter.OnAuthorization(AuthorizationFilterContext context)
         {
@@ -48,16 +48,18 @@ namespace Lenoard.Security.AspNetCore
             }
         }
 
-        private bool AuthorizeCore(HttpContext context)
+        /// <summary>
+        /// When overridden, provides an entry point for custom permission checks.
+        /// </summary>
+        /// <param name="context">The HTTP context, which encapsulates all HTTP-specific information about an individual HTTP request.</param>
+        /// <returns><c>true</c> if the current user has all the required permission; otherwise, <c>false</c>.</returns>
+        protected virtual bool AuthorizeCore(HttpContext context)
         {
             var provider = context.RequestServices.GetService<ISiteMapProvider>();
             var requiredAction = provider?.FindNode(Key)?.RequiredPermission;
-            return string.IsNullOrEmpty(requiredAction) || Authenticate(Claims.GetPermissions(context).ToArray(), requiredAction);
-        }
-
-        protected virtual bool Authenticate(string[] grantedPermissions, string requiredPermission)
-        {
-            return grantedPermissions.Contains(requiredPermission, StringComparer.CurrentCultureIgnoreCase);
+            if (string.IsNullOrEmpty(requiredAction)) return true;
+            var permissionAccessor = context.RequestServices.GetRequiredService<IPermissionAccessor>();
+            return permissionAccessor.HasPermissions(new[] {requiredAction});
         }
     }
 }

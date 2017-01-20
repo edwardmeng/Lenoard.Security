@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Lenoard.Security.AspNetCore
 {
@@ -28,7 +28,6 @@ namespace Lenoard.Security.AspNetCore
         /// </summary>
         public string[] Permissions { get; }
 
-
         void IAuthorizationFilter.OnAuthorization(AuthorizationFilterContext context)
         {
             if (context == null)
@@ -46,19 +45,20 @@ namespace Lenoard.Security.AspNetCore
             }
         }
 
-        private bool AuthorizeCore(HttpContext context)
+        /// <summary>
+        /// When overridden, provides an entry point for custom permission checks.
+        /// </summary>
+        /// <param name="context">The HTTP context, which encapsulates all HTTP-specific information about an individual HTTP request.</param>
+        /// <returns><c>true</c> if the current user has all the required permissions; otherwise, <c>false</c>.</returns>
+        protected virtual bool AuthorizeCore(HttpContext context)
         {
             if (context == null)
             {
                 throw new ArgumentNullException(nameof(context));
             }
             if (Permissions.Length <= 0) return true;
-            return Authenticate(Claims.GetPermissions(context).ToArray());
-        }
-
-        protected virtual bool Authenticate(string[] grantedPermissions)
-        {
-            return Permissions.All(permission => grantedPermissions.Contains(permission, StringComparer.CurrentCultureIgnoreCase));
+            var permissionAccessor = context.RequestServices.GetRequiredService<IPermissionAccessor>();
+            return permissionAccessor.HasPermissions(Permissions);
         }
     }
 }

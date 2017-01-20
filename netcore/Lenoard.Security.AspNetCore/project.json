@@ -2,6 +2,7 @@
   "version": "1.0.0-*",
 
     "dependencies": {
+        "Lenoard.AspNetCore.Identity": "0.1.1",
         "Lenoard.Security": { "target": "project" },
         "Microsoft.AspNetCore": "1.1.0",
         "Microsoft.AspNetCore.Identity": "1.1.0",
