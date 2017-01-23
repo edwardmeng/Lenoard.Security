@@ -6,7 +6,7 @@ namespace Lenoard.Security
     /// Represents the common interface to defined the methods of 
     /// authorizing role permimissions and retrieving the authorized permissions of the specified role.
     /// </summary>
-    public interface IAuthenticateProvider
+    public interface IAuthenticateStore
     {
         /// <summary>
         /// Asynchronously grants permissions to role.

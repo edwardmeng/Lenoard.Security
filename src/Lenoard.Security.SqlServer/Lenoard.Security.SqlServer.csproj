@@ -36,9 +36,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlServerAuthenticateProvider.cs" />
-    <Compile Include="SqlServerPermissionProvider.cs" />
-    <Compile Include="SqlServerSiteMapProvider.cs" />
+    <Compile Include="SqlServerAuthenticateStore.cs" />
+    <Compile Include="SqlServerPermissionStore.cs" />
+    <Compile Include="SqlServerSiteMapStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lenoard.Security\Lenoard.Security.csproj">
