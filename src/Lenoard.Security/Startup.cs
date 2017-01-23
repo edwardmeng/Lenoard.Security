@@ -8,16 +8,16 @@ namespace Lenoard.Security
     {
         public Startup(IActivatingEnvironment env)
         {
-            env.Use<ISiteMapProvider>(new DefaultSiteMapProvider());
-            env.Use<IPermissionProvider>(new DefaultPermissionProvider());
-            env.Use<IAuthenticateProvider>(new DefaultAuthenticateProvider());
+            env.Use<ISiteMapStore>(new DefaultSiteMapStore());
+            env.Use<IPermissionStore>(new DefaultPermissionStore());
+            env.Use<IAuthenticateStore>(new DefaultAuthenticateStore());
         }
 
         public void Configuration(IServiceContainer container)
         {
-            container.Register<ISiteMapProvider, DefaultSiteMapProvider>();
-            container.Register<IPermissionProvider, DefaultPermissionProvider>();
-            container.Register<IAuthenticateProvider, DefaultAuthenticateProvider>();
+            container.Register<ISiteMapStore, DefaultSiteMapStore>();
+            container.Register<IPermissionStore, DefaultPermissionStore>();
+            container.Register<IAuthenticateStore, DefaultAuthenticateStore>();
         }
     }
 }

@@ -11,6 +11,10 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Lenoard.Security.AspNetCore
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lenoard.Security.Mvc", "src\Lenoard.Security.Mvc\Lenoard.Security.Mvc.csproj", "{434FAA2C-2E83-402F-AB92-6983A337BB9B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F0CB18FF-B5B4-4F9F-8F19-DC3E73BB268C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{D20B3F0F-C4DD-4482-A19D-9ED938CA8C23}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lenoard.Security.SqlServer", "src\Lenoard.Security.SqlServer\Lenoard.Security.SqlServer.csproj", "{5CDC7F9D-7F31-4F7B-939B-6C56AD9088F7}"
 EndProject
 Global
@@ -42,5 +46,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3799E360-696F-4E88-849D-8A3BD0848ED2} = {F0CB18FF-B5B4-4F9F-8F19-DC3E73BB268C}
+		{266974EF-604A-4B57-B2FF-201BC2F545EB} = {F0CB18FF-B5B4-4F9F-8F19-DC3E73BB268C}
+		{A3041DE4-0D9D-415F-B805-0E6CAE965C7E} = {D20B3F0F-C4DD-4482-A19D-9ED938CA8C23}
+		{434FAA2C-2E83-402F-AB92-6983A337BB9B} = {D20B3F0F-C4DD-4482-A19D-9ED938CA8C23}
 	EndGlobalSection
 EndGlobal

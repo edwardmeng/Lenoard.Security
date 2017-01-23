@@ -19,9 +19,9 @@ namespace Lenoard.Security.AspNetCore
         /// <exception cref="ArgumentNullException"><paramref name="builder"/> is null.</exception>
         public static IdentityBuilder AddPermissionSupport(this IdentityBuilder builder)
         {
-            builder.Services.TryAddSingleton<ISiteMapProvider, DefaultSiteMapProvider>();
-            builder.Services.TryAddSingleton<IPermissionProvider, DefaultPermissionProvider>();
-            builder.Services.TryAddSingleton<IAuthenticateProvider, DefaultAuthenticateProvider>();
+            builder.Services.TryAddSingleton<ISiteMapStore, DefaultSiteMapStore>();
+            builder.Services.TryAddSingleton<IPermissionStore, DefaultPermissionStore>();
+            builder.Services.TryAddSingleton<IAuthenticateStore, DefaultAuthenticateStore>();
             builder.Services.TryAddSingleton<IPermissionAccessor, PermissionAccessor>();
             builder.Services.AddScoped(typeof(IUserClaimsPrincipalFilter<>).MakeGenericType(builder.UserType), typeof(UserPermissionClaimsPrincipalFilter<>).MakeGenericType(builder.UserType));
             return builder;
